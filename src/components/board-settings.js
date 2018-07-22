@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import Minesweeper from './lib/minesweeper';
 
 export default class BoardSettings extends Component {
   constructor(props) {
     super(props);
-    this.state = { board: new Board() };
   }
 
   updateBoard() {
@@ -12,8 +10,6 @@ export default class BoardSettings extends Component {
   }
 
   render() {
-    const { board } = this.state;
-
     return (
       <div className="grid-container">
         <header className="text-center">Board Settings</header>

@@ -3,14 +3,14 @@ import Row from './row';
 
 class Board extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
-    const { rows } = this.props;
+    const { board } = this.props;
 
-    return rows.map(row => {
-      <Row row={row} />;
+    return board.map(row => {
+      return <Row squares={row} />;
     });
   }
 }

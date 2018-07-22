@@ -5,9 +5,13 @@ class Row extends Component {
   render() {
     const { squares } = this.props;
 
-    return squares.map(square => {
-      <Square square={square} />;
-    });
+    return (
+      <div className="grid-x">
+        {squares.map(square => {
+          return <Square square={square} />;
+        })}
+      </div>
+    );
   }
 }
 

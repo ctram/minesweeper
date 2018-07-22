@@ -6,25 +6,27 @@ export default class Minesweeper {
   }
 
   static createBoard(dimensions) {
-    const board = new Array(dimensions[0]).map(() => {
-      return new Array(dimensions[1]);
-    });
+    const board = [];
     // Random mine
-    const x = Math.ceil(Math.random() * dimensions[0]);
-    const y = Math.ceil(Math.random() * dimensions[1]);
+    const x = Math.ceil(Math.random() * (dimensions[0] - 1));
+    const y = Math.ceil(Math.random() * (dimensions[1] - 1));
 
-    return board.map((row, i) => {
-      row.map((_square, j) => {
+    for (let i = 0; i < dimensions[0]; ++i) {
+      const row = [];
+      for (let j = 0; j < dimensions[1]; ++j) {
         if (i === x && y === j) {
-          return 'M';
+          row.push('M');
+        } else {
+          row.push('E');
         }
-        return 'E';
-      });
-    });
+      }
+      board.push(row);
+    }
+    return board;
   }
 
   get board() {
-    return this._board; 
+    return this._board;
   }
 
   /**
@@ -33,14 +35,14 @@ export default class Minesweeper {
    * @return {character[][]}
    */
   updateBoard(board, click) {
-    const _nextStateOfSquare = nextStateOfSquare(board, click);
-    board = setStateOfSquare(board, click, _nextStateOfSquare);
+    const _nextStateOfSquare = this.nextStateOfSquare(board, click);
+    board = this.setStateOfSquare(board, click, _nextStateOfSquare);
 
     if (_nextStateOfSquare === 'B') {
-      const neighbors = getNeighbors(board, click);
-      const squaresAlreadyProcessed = updateSquaresAlreadyProcessed(click);
+      const neighbors = this.getNeighbors(board, click);
+      const squaresAlreadyProcessed = this.updateSquaresAlreadyProcessed(click);
 
-      return updateNeighbors({ board, neighbors, squaresAlreadyProcessed });
+      return this.updateNeighbors({ board, neighbors, squaresAlreadyProcessed });
     }
     return board;
   }
@@ -53,12 +55,15 @@ export default class Minesweeper {
 
     while (i < neighbors.length) {
       const neighbor = neighbors[i];
-      const nextStateOfNeighbor = nextStateOfSquare(board, neighbor);
-      board = setStateOfSquare(board, neighbor, nextStateOfNeighbor);
-      squaresAlreadyProcessed = updateSquaresAlreadyProcessed(neighbor, squaresAlreadyProcessed);
+      const nextStateOfNeighbor = this.nextStateOfSquare(board, neighbor);
+      board = this.setStateOfSquare(board, neighbor, nextStateOfNeighbor);
+      squaresAlreadyProcessed = this.updateSquaresAlreadyProcessed(
+        neighbor,
+        squaresAlreadyProcessed
+      );
       let _neighbors = [];
       if (nextStateOfNeighbor === 'B') {
-        _neighbors = getNeighbors(board, neighbor, squaresAlreadyProcessed);
+        _neighbors = this.getNeighbors(board, neighbor, squaresAlreadyProcessed);
       }
       neighbors = neighbors.concat(_neighbors);
       i++;
@@ -83,13 +88,13 @@ export default class Minesweeper {
   }
 
   nextStateOfSquare(board, square) {
-    if (stateOfSquare(board, square) === 'M') {
+    if (this.stateOfSquare(board, square) === 'M') {
       return 'X';
     }
 
-    const neighbors = getNeighbors(board, square);
+    const neighbors = this.getNeighbors(board, square);
     const numMines = neighbors.reduce((acc, neighbor) => {
-      if (stateOfSquare(board, neighbor) === 'M') {
+      if (this.stateOfSquare(board, neighbor) === 'M') {
         return ++acc;
       }
       return acc;
