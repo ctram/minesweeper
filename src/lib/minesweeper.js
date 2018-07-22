@@ -1,3 +1,113 @@
+class Square {
+  constructor(val, coordinates, board, isExposed = false) {
+    this._val = val === 'E' ? null : val;
+    this._coordinates = coordinates;
+    this._isExposed = isExposed;
+    this._board = board;
+    this._isMine = val === 'M';
+  }
+
+  get val() {
+    return this._val;
+  }
+
+  set val(val) {
+    this._val = val;
+  }
+
+  get isExposed() {
+    return this._isExposed;
+  }
+
+  set isExposed(isExposed) {
+    this._isExposed = isExposed;
+  }
+
+  get coorX() {
+    return this._coordinates[0];
+  }
+
+  get coorY() {
+    return this._coordinates[1];
+  }
+
+  get id() {
+    return this._coordinates.join(',');
+  }
+
+  get isMine() {
+    return this._isMine;
+  }
+
+  isNearMine() {
+    const nextState = this.nextStateOfSquareIfClicked();
+    return nextState !== 'M' && nextState !== 'B';
+  }
+
+  nextStateOfSquareIfClicked() {
+    if (square.val === 'M') {
+      return 'X';
+    }
+
+    const numMines = this.neighbors().reduce((acc, neighbor) => {
+      if (neighbor.val === 'M') {
+        return ++acc;
+      }
+      return acc;
+    }, 0);
+
+    if (numMines === 0) {
+      return 'B';
+    }
+    return String(numMines);
+  }
+
+  click() {
+    this._isExposed = true;
+    return (this._val = this.nextStateOfSquareIfClicked());
+  }
+
+  neighbors() {
+    return this.DELTAS.map(delta => {
+      const i = this.coorX + delta[0];
+      const j = this.coorY + delta[1];
+
+      if (
+        i < 0 ||
+        i >= this._board.length ||
+        j < 0 ||
+        j >= this._board[0].length ||
+        neighbor.isExposed
+      ) {
+        return null;
+      }
+
+      return this._board[i][j];
+    }).filter(neighbor => {
+      return neighbor;
+    });
+  }
+
+  updateNeighbors() {
+    const neighbors = this.neighbors();
+    let i = 0;
+
+    while (i < neighbors.length) {
+      const neighbor = neighbors[i];
+
+      if (neighbor.isMine) {
+        null;
+      } else if (neighbor.isNearMine()) {
+        neighbor.click();
+      } else {
+        neighbor.click();
+        neighbor.updateNeighbors();
+      }
+      i++;
+    }
+  }
+}
+
 export default class Minesweeper {
   constructor() {
     this.DELTAS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
@@ -15,9 +125,9 @@ export default class Minesweeper {
       const row = [];
       for (let j = 0; j < dimensions[1]; ++j) {
         if (i === x && y === j) {
-          row.push('M');
+          row.push(new Square('M', [i, j]));
         } else {
-          row.push('E');
+          row.push(new Square('E', [i, j]));
         }
       }
       board.push(row);
@@ -34,99 +144,13 @@ export default class Minesweeper {
    * @param {number[]} click
    * @return {character[][]}
    */
-  updateBoard(board, click) {
-    const _nextStateOfSquare = this.nextStateOfSquare(board, click);
-    board = this.setStateOfSquare(board, click, _nextStateOfSquare);
+  updateBoard(board, squareClicked) {
+    const nextStateOfSquare = squareClicked.click();
 
-    if (_nextStateOfSquare === 'B') {
-      const neighbors = this.getNeighbors(board, click);
-      const squaresAlreadyProcessed = this.updateSquaresAlreadyProcessed(click);
-
-      return this.updateNeighbors({ board, neighbors, squaresAlreadyProcessed });
+    if (nextStateOfSquare === 'B') {
+      squareClicked.updateNeighbors();
+      return board;
     }
     return board;
-  }
-
-  updateNeighbors({ board, neighbors, squaresAlreadyProcessed }) {
-    neighbors = neighbors.filter(neighbor => {
-      return !squaresAlreadyProcessed[neighbor.join(',')];
-    });
-    let i = 0;
-
-    while (i < neighbors.length) {
-      const neighbor = neighbors[i];
-      const nextStateOfNeighbor = this.nextStateOfSquare(board, neighbor);
-      board = this.setStateOfSquare(board, neighbor, nextStateOfNeighbor);
-      squaresAlreadyProcessed = this.updateSquaresAlreadyProcessed(
-        neighbor,
-        squaresAlreadyProcessed
-      );
-      let _neighbors = [];
-      if (nextStateOfNeighbor === 'B') {
-        _neighbors = this.getNeighbors(board, neighbor, squaresAlreadyProcessed);
-      }
-      neighbors = neighbors.concat(_neighbors);
-      i++;
-    }
-    return board;
-  }
-
-  updateSquaresAlreadyProcessed(squares, squareAlreadyProcessed = {}) {
-    if (squares[0].__proto__ !== Array.prototype) {
-      squares = [squares];
-    }
-
-    squares.forEach(square => {
-      squareAlreadyProcessed[square.join(',')] = true;
-    });
-    return squareAlreadyProcessed;
-  }
-
-  setStateOfSquare(board, square, state) {
-    board[square[0]][square[1]] = state;
-    return board;
-  }
-
-  nextStateOfSquare(board, square) {
-    if (this.stateOfSquare(board, square) === 'M') {
-      return 'X';
-    }
-
-    const neighbors = this.getNeighbors(board, square);
-    const numMines = neighbors.reduce((acc, neighbor) => {
-      if (this.stateOfSquare(board, neighbor) === 'M') {
-        return ++acc;
-      }
-      return acc;
-    }, 0);
-
-    if (numMines === 0) {
-      return 'B';
-    }
-    return String(numMines);
-  }
-
-  stateOfSquare(board, square) {
-    return board[square[0]][square[1]];
-  }
-
-  getNeighbors(board, square, squareAlreadyProcessed = {}) {
-    return this.DELTAS.map(delta => {
-      const i = square[0] + delta[0];
-      const j = square[1] + delta[1];
-
-      if (
-        i >= 0 &&
-        i < board.length &&
-        j >= 0 &&
-        j < board[0].length &&
-        !squareAlreadyProcessed[`${i},${j}`]
-      ) {
-        return [i, j];
-      }
-      return null;
-    }).filter(neighbor => {
-      return neighbor;
-    });
   }
 }
