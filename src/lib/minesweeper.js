@@ -45,7 +45,7 @@ class Square {
   }
 
   nextStateOfSquareIfClicked() {
-    if (square.val === 'M') {
+    if (this._val === 'M') {
       return 'X';
     }
 
@@ -77,7 +77,7 @@ class Square {
         i >= this._board.length ||
         j < 0 ||
         j >= this._board[0].length ||
-        neighbor.isExposed
+        this._board[i][j].isExposed
       ) {
         return null;
       }
