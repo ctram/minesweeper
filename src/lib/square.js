@@ -74,17 +74,11 @@ export default class Square {
     return _this.DELTAS.map(delta => {
       const i = _this.coorX + delta[0];
       const j = _this.coorY + delta[1];
-
-      if (i < 0 || i >= _this._board.height || j < 0 || j >= _this._board.width) {
-        return null;
-      }
-
       const square = _this._board.getSquare(i, j);
 
-      if (square.isExposed) {
+      if (!square || square.isExposed) {
         return null;
       }
-
       return square;
     }).filter(neighbor => {
       return neighbor;
