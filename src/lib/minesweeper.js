@@ -60,6 +60,10 @@ export default class Minesweeper {
   }
 
   clickSquare(square) {
+    if (square.flagged) {
+      return this;
+    }
+
     const nextStateOfSquare = square.click();
     this._clickHistory.push(square);
 
