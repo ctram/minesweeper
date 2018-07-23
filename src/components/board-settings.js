@@ -12,12 +12,13 @@ export default class BoardSettings extends Component {
     e.preventDefault();
     const y = Number(this.refs['input-width'].value);
     const x = Number(this.refs['input-height'].value);
-    this.props.handleNewBoard(x, y);
+    const numMines = Number(this.refs['input-mines'].value);
+    this.props.handleNewBoard(x, y, numMines);
   }
 
   handeChange() {
     const data = {};
-    ['width', 'height'].forEach(ref => {
+    ['width', 'height', 'mines'].forEach(ref => {
       const value = this.refs[`input-${ref}`].value;
       data[ref] = value;
     });

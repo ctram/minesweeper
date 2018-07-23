@@ -2,17 +2,11 @@ import Board from './board';
 
 export default class Minesweeper {
   static createBoard(height, width, numMines) {
-    this._board = new Board(height, width, numMines);
-    return this._board;
+    return new Board(height, width, numMines);
   }
 
-  constructor(height, width) {
-    // Defaults
-    if (!height || !width) {
-      height = 3;
-      width = 3;
-    }
-    this._board = Minesweeper.createBoard(height, width);
+  constructor(height = 3, width = 3, numMines = 1) {
+    this._board = Minesweeper.createBoard(height, width, numMines);
     this._state = 'playing';
   }
 
@@ -34,6 +28,10 @@ export default class Minesweeper {
     });
   }
 
+  revealMines() {
+    this._board.revealMines();
+  }
+
   clickSquare(square) {
     const nextStateOfSquare = square.click();
 
@@ -41,14 +39,12 @@ export default class Minesweeper {
       this._state = 'lost';
       return this;
     }
-
-    if (this.hasWon()) {
-      this._state = 'won';
-      return this;
-    }
-
     if (nextStateOfSquare === 'B') {
       square.revealNeighbors();
+    }
+    if (this.hasWon()) {
+      this._state = 'won';
+      this.revealMines();
     }
     return this;
   }

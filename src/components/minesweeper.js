@@ -12,9 +12,10 @@ export default class Minesweeper extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  newBoard(x, y) {
+  newBoard(x, y, numMines) {
     try {
-      this.setState({ game: new MinesweeperGame(x, y) });
+      this.setState({ game: new MinesweeperGame(x, y, numMines) });
+      toastr.success(`Board created with ${numMines} mines`);
     } catch (e) {
       toastr.error(e);
     }
@@ -23,10 +24,11 @@ export default class Minesweeper extends Component {
   handleClick(square) {
     const { game } = this.state;
     const _game = game.clickSquare(square);
+
     if (_game.state === 'won') {
       toastr.success("You've Won!");
     } else if (_game.state === 'lost') {
-      toastr.error("You lost");
+      toastr.error('You lost');
     }
     this.setState({ game: _game });
   }
@@ -37,6 +39,7 @@ export default class Minesweeper extends Component {
     return (
       <div className="d-flex flex-column align-items-center pt-3">
         <BoardSettings game={game} handleNewBoard={this.newBoard} />
+        <hr />
         <Board game={game} handleClick={this.handleClick} />
       </div>
     );

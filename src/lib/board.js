@@ -5,31 +5,31 @@ export default class Board {
     const LIMIT = 30;
 
     if (numMines > height * width - 1) {
-      throw 'Must have at least one empty square';
+      throw new Error('Must have at least one empty square');
     }
     if (height > LIMIT || width > LIMIT) {
-      throw `Dimension cannot exceed ${LIMIT}`;
+      throw new Error(`Dimension cannot exceed ${LIMIT}`);
     }
 
     this._matrix = [];
-    mineLocations = {};
+    this._mineLocations = {};
     let x = 0;
 
     while (x < numMines) {
       const i = Math.floor(Math.random() * height);
       const j = Math.floor(Math.random() * width);
-      if (mineLocations[`${i},${j}`]) {
+      if (this._mineLocations[`${i},${j}`]) {
         continue;
       }
 
-      mineLocations[`${i},${j}`] = true;
+      this._mineLocations[`${i},${j}`] = [i, j];
       x++;
     }
 
-    for (let i = 0; i < x; ++i) {
+    for (let i = 0; i < height; ++i) {
       const row = [];
-      for (let j = 0; j < y; ++j) {
-        const isMine = mineLocations[`${i},${j}`];
+      for (let j = 0; j < width; ++j) {
+        const isMine = this._mineLocations[`${i},${j}`];
         row.push(new Square(isMine ? 'M' : null, this, [i, j]));
       }
       this._matrix.push(row);
@@ -73,5 +73,13 @@ export default class Board {
       row.forEach(square => squares.push(square));
     });
     return squares;
+  }
+
+  revealMines() {
+    for (let coordinates in this._mineLocations) {
+      const [x, y] = this._mineLocations[coordinates];
+
+      this.getSquare(x, y).isExposed = true;
+    }
   }
 }

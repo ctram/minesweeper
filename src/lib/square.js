@@ -1,8 +1,8 @@
 export default class Square {
-  constructor(val, board, coordinates, isExposed = false) {
+  constructor(val, board, coordinates) {
     this._val = val === 'E' ? null : val;
     this._coordinates = coordinates;
-    this._isExposed = isExposed;
+    this._isExposed = false;
     this._board = board;
     this._isMine = val === 'M';
     this.DELTAS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
@@ -92,11 +92,9 @@ export default class Square {
     while (i < neighbors.length) {
       const neighbor = neighbors[i];
 
-      if (neighbor.isMine) {
-        null;
-      } else if (neighbor.isNearMine()) {
+      if (neighbor.isNearMine()) {
         neighbor.click();
-      } else {
+      } else if (!neighbor.isMine) {
         neighbor.click();
         neighbor.revealNeighbors();
       }

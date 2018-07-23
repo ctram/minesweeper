@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 export default class Square extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { square, handleClick, disabled } = this.props;
     let content = square.isExposed ? square.val : '';
