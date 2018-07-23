@@ -8,11 +8,12 @@ export default class Board extends Component {
 
   render() {
     const {
-      board: { matrix }
+      board: { matrix },
+      handleClick
     } = this.props;
 
     return matrix.map((row, idx) => {
-      return <Row squares={row} key={idx} />;
+      return <Row squares={row} key={idx} handleClick={handleClick} />;
     });
   }
 }

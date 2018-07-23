@@ -2,14 +2,11 @@ import Board from './board';
 
 export default class Minesweeper {
   constructor(height, width) {
-    
     // Defaults
     if (!height || !width) {
       height = 3;
       width = 3;
     }
-    
-    this.DELTAS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
     this._board = Minesweeper.createBoard(height, width);
   }
 
@@ -27,18 +24,12 @@ export default class Minesweeper {
     return this._board;
   }
 
-  /**
-   * @param {character[][]} board
-   * @param {number[]} click
-   * @return {character[][]}
-   */
-  updateBoard(board, squareClicked) {
-    const nextStateOfSquare = squareClicked.click();
+  clickSquare(square) {
+    const nextStateOfSquare = square.click();
 
     if (nextStateOfSquare === 'B') {
-      squareClicked.updateNeighbors();
-      return board;
+      square.updateNeighbors();
     }
-    return board;
+    return this;
   }
 }

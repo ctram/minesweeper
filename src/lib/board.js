@@ -11,7 +11,7 @@ export default class Board {
     for (let i = 0; i < x; ++i) {
       const row = [];
       for (let j = 0; j < y; ++j) {
-        row.push(new Square(null, this._matrix, [i, j]));
+        row.push(new Square(null, this, [i, j]));
       }
       this._matrix.push(row);
     }
@@ -19,6 +19,14 @@ export default class Board {
 
   get matrix() {
     return this._matrix;
+  }
+
+  get height() {
+    return this._matrix.length;
+  }
+
+  get width() {
+    return this._matrix[0].length;
   }
 
   getSquare(x, y) {

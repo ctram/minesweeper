@@ -1,10 +1,11 @@
 export default class Square {
-  constructor(val, coordinates, board, isExposed = false) {
+  constructor(val, board, coordinates, isExposed = false) {
     this._val = val === 'E' ? null : val;
     this._coordinates = coordinates;
     this._isExposed = isExposed;
     this._board = board;
     this._isMine = val === 'M';
+    this.DELTAS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
   }
 
   get val() {
@@ -69,22 +70,23 @@ export default class Square {
   }
 
   neighbors() {
-    return this.DELTAS.map(delta => {
-      const i = this.coorX + delta[0];
-      const j = this.coorY + delta[1];
-      const square = this._board.getSquare(i, j);
+    const _this = this;
+    return _this.DELTAS.map(delta => {
+      const i = _this.coorX + delta[0];
+      const j = _this.coorY + delta[1];
+      const square = _this._board.getSquare(i, j);
 
       if (
         i < 0 ||
-        i >= this._board.length ||
+        i >= _this._board.height ||
         j < 0 ||
-        j >= this._board[0].length ||
+        j >= _this._board.width ||
         square.isExposed
       ) {
         return null;
       }
 
-      return this._board[i][j];
+      return square;
     }).filter(neighbor => {
       return neighbor;
     });

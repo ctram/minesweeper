@@ -9,6 +9,7 @@ export default class Minesweeper extends Component {
     super(props);
     this.state = { game: new MinesweeperGame() };
     this.newBoard = this.newBoard.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   newBoard(x, y) {
@@ -19,13 +20,18 @@ export default class Minesweeper extends Component {
     }
   }
 
+  handleClick(square) {
+    const { game } = this.state;
+    this.setState({ game: game.clickSquare(square) });
+  }
+
   render() {
     const { game } = this.state;
 
     return (
       <div className="d-flex flex-column align-items-center pt-3">
         <BoardSettings game={game} handleNewBoard={this.newBoard} />
-        <Board board={game.board} />
+        <Board board={game.board} handleClick={this.handleClick} />
       </div>
     );
   }
