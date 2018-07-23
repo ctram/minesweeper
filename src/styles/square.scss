@@ -1,0 +1,12 @@
+.square {
+  // margin: 0.35em;
+  height: 2em;
+  width: 2em;
+  background: grey;
+  border: 2px solid black;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
