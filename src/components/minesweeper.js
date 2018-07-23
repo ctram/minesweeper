@@ -10,7 +10,7 @@ export default class Minesweeper extends Component {
     this.newBoard = this.newBoard.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onContextMenu = this.onContextMenu.bind(this);
-    this.state = { game: new MinesweeperGame(), flagMode: false };
+    this.state = { game: new MinesweeperGame(): false };
   }
 
   newBoard(x, y, numMines) {
@@ -43,12 +43,21 @@ export default class Minesweeper extends Component {
   }
 
   render() {
-    const { game, flagMode } = this.state;
+    const { game } = this.state;
 
     return (
       <div className="d-flex flex-column align-items-center pt-3">
         <BoardSettings game={game} handleNewBoard={this.newBoard} />
         <hr />
+        <p className="instructions">
+          <ol>
+            <li>Click on square to reveal what is underneath.</li>
+            <li>If you reveal a mine, you lose.</li>
+            <li>A number indicates how many mines are adjacent to the square. No number indicates there are zero mines adjacent to the square.</li>
+            <li><strong>Right click</strong> to flag the square as a mine.</li>
+            <li>You win by revealing all squares that are not mines <strong>and</strong> flagging all squares that are mines.</li>
+          </ol>  
+        </p>
         <Board game={game} onClick={this.onClick} onContextMenu={this.onContextMenu} />
       </div>
     );
