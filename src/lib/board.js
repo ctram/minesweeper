@@ -10,6 +10,9 @@ export default class Board {
     if (height > LIMIT || width > LIMIT) {
       throw new Error(`Dimension cannot exceed ${LIMIT}`);
     }
+    if (numMines <= 0) {
+      throw new Error(`Must have at least one mine`);
+    }
 
     this._matrix = [];
     this._mineLocations = {};
@@ -73,13 +76,5 @@ export default class Board {
       row.forEach(square => squares.push(square));
     });
     return squares;
-  }
-
-  revealMines() {
-    for (let coordinates in this._mineLocations) {
-      const [x, y] = this._mineLocations[coordinates];
-
-      this.getSquare(x, y).revealed = true;
-    }
   }
 }

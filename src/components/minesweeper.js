@@ -23,21 +23,23 @@ export default class Minesweeper extends Component {
   }
 
   onClick(square) {
-    const { game } = this.state;
-    const _game = game.clickSquare(square);
-
-    if (_game.state === 'won') {
-      toastr.success("You've Won!");
-    } else if (_game.state === 'lost') {
-      toastr.error('You lost');
-    }
-    this.setState({ game: _game });
+    this.setState({ game: this.state.game.clickSquare(square) });
+    this.checkGameState();
   }
 
   onContextMenu(square) {
+    this.setState({ game: this.state.game.toggleFlagSquare(square) });
+    this.checkGameState();
+  }
+
+  checkGameState() {
     const { game } = this.state;
-    const _game = game.toggleFlagSquare(square);
-    this.setState({ game: _game });
+
+    if (game.state === 'won') {
+      toastr.success("You've Won!");
+    } else if (game.state === 'lost') {
+      toastr.error('You lost');
+    }
   }
 
   render() {
@@ -47,17 +49,7 @@ export default class Minesweeper extends Component {
       <div className="d-flex flex-column align-items-center pt-3">
         <BoardSettings game={game} handleNewBoard={this.newBoard} />
         <hr />
-        <div className="d-flex flex-column align-items-center">
-          <div className="mb-3">
-            <button type="button" className={'btn btn-danger mr-3 ' + (flagMode ? 'd-none' : '')}>
-              Flag Mode
-            </button>
-            <button type="button" className={'btn btn-info ' + (flagMode ? '' : 'd-none')}>
-              Reveal Mode
-            </button>
-          </div>
-          <Board game={game} onClick={this.onClick} onContextMenu={this.onContextMenu} />
-        </div>
+        <Board game={game} onClick={this.onClick} onContextMenu={this.onContextMenu} />
       </div>
     );
   }

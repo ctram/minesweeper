@@ -10,6 +10,8 @@ export default class Minesweeper {
     this._state = 'playing';
     this._clickHistory = [];
     this._attrs = { height, width, numMines };
+    this._numMines = numMines;
+    this._numSquares = height * width;
   }
 
   get attrs() {
@@ -28,41 +30,56 @@ export default class Minesweeper {
     return this._clickHistory[this._clickHistory.length - 1];
   }
 
-  hasWon() {
-    return this._board.allSquares().every(square => {
+  updateGameState() {
+    let lost;
+    let numFlaggedMines = 0;
+    let numNonMinesRevealed = 0;
+
+    this._board.allSquares().some(square => {
       if (square.isMine) {
-        return !square.revealed;
+        if (square.revealed) {
+          lost = true;
+          return true;
+        } else if (square.flagged) {
+          numFlaggedMines += 1;
+        }
+      } else {
+        numNonMinesRevealed += square.revealed ? 1 : 0;
       }
-
-      return square.revealed;
     });
-  }
 
-  revealMines() {
-    this._board.revealMines();
+    if (lost) {
+      this._state = 'lost';
+    } else if (
+      numFlaggedMines === this._numMines &&
+      numNonMinesRevealed === this._numSquares - this._numMines
+    ) {
+      this._state = 'won';
+    }
+    return this._state;
   }
 
   clickSquare(square) {
     const nextStateOfSquare = square.click();
     this._clickHistory.push(square);
 
-    if (square.isMine) {
-      this._state = 'lost';
-      this.revealRemainingSquares();
-    }
     if (nextStateOfSquare === 'B') {
       square.revealNeighbors();
     }
-    if (this.hasWon()) {
-      this._state = 'won';
-      this.revealRemainingSquares();
-    }
+    this.checkEndGame();
     return this;
   }
 
   toggleFlagSquare(square) {
     square.toggleFlag();
+    this.checkEndGame();
     return this;
+  }
+
+  checkEndGame() {
+    if (this.updateGameState() !== 'playing') {
+      this.revealRemainingSquares();
+    }
   }
 
   revealRemainingSquares() {
