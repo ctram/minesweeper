@@ -2,12 +2,23 @@ import React, { Component } from 'react';
 
 export default class Square extends Component {
   render() {
-    const { square, handleClick, disabled } = this.props;
-    let content = square.isExposed ? square.val : '';
-    let style = 'square';
+    const { square, handleClick, game } = this.props;
+    let content;
+    let style = 'square text-center';
+    const disabled = game.state !== 'playing';
 
-    if (square.isExposed) {
-      style += ' square--exposed';
+    if (square.revealed) {
+      style += ' square--revealed';
+
+      if (square.isMine) {
+        debugger
+        style += square === game.lastClicked ? ' square--explosion' : '';
+        content = 'M';
+      } else if (square.val === 'B') {
+        content = '';
+      } else {
+        content = square.val;
+      }
     }
     if (disabled) {
       style += ' square--disabled';

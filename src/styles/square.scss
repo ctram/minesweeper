@@ -15,3 +15,10 @@
     cursor: default;
   }
 }
+
+.square--revealed {
+  background: #bdbdbd;
+}
+.square--explosion {
+  background: red;
+}

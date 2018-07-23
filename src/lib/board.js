@@ -79,7 +79,7 @@ export default class Board {
     for (let coordinates in this._mineLocations) {
       const [x, y] = this._mineLocations[coordinates];
 
-      this.getSquare(x, y).isExposed = true;
+      this.getSquare(x, y).revealed = true;
     }
   }
 }

@@ -2,7 +2,7 @@ export default class Square {
   constructor(val, board, coordinates) {
     this._val = val === 'E' ? null : val;
     this._coordinates = coordinates;
-    this._isExposed = false;
+    this._revealed = false;
     this._board = board;
     this._isMine = val === 'M';
     this.DELTAS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
@@ -17,12 +17,12 @@ export default class Square {
     this._val = val;
   }
 
-  get isExposed() {
-    return this._isExposed;
+  get revealed() {
+    return this._revealed;
   }
 
-  set isExposed(isExposed) {
-    this._isExposed = isExposed;
+  set revealed(revealed) {
+    this._revealed = revealed;
   }
 
   get coorX() {
@@ -39,6 +39,10 @@ export default class Square {
 
   get isMine() {
     return this._isMine;
+  }
+
+  reveal() {
+    this._revealed = true;
   }
 
   isNearMine() {
@@ -65,7 +69,7 @@ export default class Square {
   }
 
   click() {
-    this._isExposed = true;
+    this._revealed = true;
     return (this._val = this.nextStateOfSquareIfClicked());
   }
 
@@ -76,7 +80,7 @@ export default class Square {
       const j = _this.coorY + delta[1];
       const square = _this._board.getSquare(i, j);
 
-      if (!square || square.isExposed) {
+      if (!square || square.revealed) {
         return null;
       }
       return square;

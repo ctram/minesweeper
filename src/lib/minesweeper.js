@@ -8,6 +8,7 @@ export default class Minesweeper {
   constructor(height = 3, width = 3, numMines = 1) {
     this._board = Minesweeper.createBoard(height, width, numMines);
     this._state = 'playing';
+    this._clickHistory = [];
   }
 
   get board() {
@@ -18,13 +19,17 @@ export default class Minesweeper {
     return this._state;
   }
 
+  get lastClicked() {
+    return this._clickHistory[this._clickHistory.length - 1];
+  }
+
   hasWon() {
     return this._board.allSquares().every(square => {
       if (square.isMine) {
-        return !square.isExposed;
+        return !square.revealed;
       }
 
-      return square.isExposed;
+      return square.revealed;
     });
   }
 
@@ -34,18 +39,27 @@ export default class Minesweeper {
 
   clickSquare(square) {
     const nextStateOfSquare = square.click();
+    this._clickHistory.push(square);
 
     if (square.isMine) {
       this._state = 'lost';
-      return this;
+      this.revealMines();
     }
     if (nextStateOfSquare === 'B') {
       square.revealNeighbors();
     }
     if (this.hasWon()) {
       this._state = 'won';
-      this.revealMines();
+      this.revealRemainingSquares();
     }
     return this;
+  }
+
+  revealRemainingSquares() {
+    this._board.allSquares().forEach(square => {
+      if (this._clickHistory.indexOf(square) === -1) {
+        square.reveal();
+      }
+    })
   }
 }
