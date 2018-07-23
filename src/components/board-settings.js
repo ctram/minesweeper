@@ -25,38 +25,46 @@ export default class BoardSettings extends Component {
 
   render() {
     return (
-      <div className="grid-container">
-        <header className="text-center">Board Settings</header>
-        <form>
-          <div className="medium-4 cell">
-            <label>
+      <div>
+        <form className="form-inline">
+          <div className="form-group">
+            <label htmlFor="input-width" className="mr-3">
               Width
-              <input
-                type="number"
-                ref="input-width"
-                min="1"
-                value={this.state.width}
-                onChange={this.handeChange}
-              />
             </label>
+            <input
+              id="input-width"
+              className="form-control"
+              type="number"
+              ref="input-width"
+              min="1"
+              max="20"
+              placeholder="width"
+              value={this.state.width}
+              onChange={this.handeChange}
+            />
           </div>
-          <div className="medium-4 cell">
-            <label>
+          <div className="form-group">
+            <label htmlFor="input-height" className="mx-3">
               Height
-              <input
-                type="number"
-                ref="input-height"
-                min="1"
-                value={this.state.height}
-                onChange={this.handeChange}
-              />
             </label>
+            <input
+              id="input-height"
+              className="form-control"
+              type="number"
+              ref="input-height"
+              min="1"
+              max="20"
+              placeholder="height"
+              value={this.state.height}
+              onChange={this.handeChange}
+            />
           </div>
-          <div className="medium-4 cell">
-            <button type="button" className="button" onClick={this.newBoard}>
-              Create Board
-            </button>
-          </div>
+          <button type="button" className="btn btn-primary ml-3" onClick={this.newBoard}>
+            Create Board
+          </button>
+          <small className="form-text text-muted ml-3">
+            Creating a new board will quit the current game!
+          </small>
         </form>
         <hr />
       </div>

@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
+// import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './dist/styles/App.css';
-import 'foundation-sites';
-import 'foundation-sites/dist/css/foundation.min.css';
-import TopBar from './components/top-bar';
+import Navbar from './components/navbar';
 import Minesweeper from './components/minesweeper';
 
 class App extends Component {
   render() {
     return (
-      <div className="grid-y grid-padding-y">
-        <TopBar className="cell" />
-        <Minesweeper />
+      <div>
+        <Navbar />
+        <div className="container-fluid">
+          <Minesweeper />
+        </div>
       </div>
     );
   }

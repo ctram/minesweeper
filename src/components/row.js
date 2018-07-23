@@ -6,7 +6,7 @@ class Row extends Component {
     const { squares } = this.props;
 
     return (
-      <div className="board-row">
+      <div className="board-row row">
         {squares.map((square, idx) => {
           return <Square square={square} key={idx} />;
         })}

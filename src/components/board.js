@@ -7,7 +7,6 @@ export default class Board extends Component {
   }
 
   render() {
-    debugger;
     const {
       board: { matrix }
     } = this.props;

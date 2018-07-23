@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 
-class Square extends Component {
+export default class Square extends Component {
   render() {
     const { square } = this.props;
     let content = '';
-    let style = '';
+    let style = 'square';
 
     if (square.isExposed) {
-      style = 'square--exposed';
+      style += ' square--exposed';
     }
 
-    return <div className={`square ${style}`}>{content}</div>;
+    return <div className={style}>{content}</div>;
   }
 }
-
-export default Square;

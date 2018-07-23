@@ -18,13 +18,9 @@ export default class Minesweeper extends Component {
     const { game } = this.state;
 
     return (
-      <div>
+      <div className="d-flex flex-column align-items-center pt-3">
         <BoardSettings game={game} handleNewBoard={this.newBoard} />
-        <div className="grid-container">
-          <div className="grid-x align-center">
-            <Board board={game.board} />
-          </div>
-        </div>
+        <Board board={game.board} />
       </div>
     );
   }
