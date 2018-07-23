@@ -7,9 +7,11 @@ class Board extends Component {
   }
 
   render() {
-    const { board } = this.props;
+    const {
+      board: { matrix }
+    } = this.props;
 
-    return board.map(row => {
+    return matrix.map(row => {
       return <Row squares={row} />;
     });
   }

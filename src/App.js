@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './dist/styles/App.css';
 import 'foundation-sites';
 import 'foundation-sites/dist/css/foundation.min.css';
 import TopBar from './components/top-bar';

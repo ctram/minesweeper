@@ -16,7 +16,9 @@ export default class Minesweeper extends Component {
       <div>
         <BoardSettings game={this.game} handleUpdateBoard={this.updateBoard} />
         <div className="grid-container">
-          <Board board={this.game.board} />
+          <div className="grid-x align-center">
+            <Board board={this.game.board} />
+          </div>
         </div>
       </div>
     );
