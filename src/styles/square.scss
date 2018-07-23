@@ -10,3 +10,8 @@
   }
 }
 
+.square--disabled {
+  &:hover {
+    cursor: default;
+  }
+}

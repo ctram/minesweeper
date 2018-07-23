@@ -8,12 +8,12 @@ export default class Board extends Component {
 
   render() {
     const {
-      board: { matrix },
+      game,
       handleClick
     } = this.props;
 
-    return matrix.map((row, idx) => {
-      return <Row squares={row} key={idx} handleClick={handleClick} />;
+    return game.board.matrix.map((row, idx) => {
+      return <Row squares={row} key={idx} handleClick={handleClick} disabled={game.state !== 'playing'} />;
     });
   }
 }

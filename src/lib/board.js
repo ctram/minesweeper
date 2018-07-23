@@ -33,11 +33,19 @@ export default class Board {
     if (!x || !y || x < 0 || x >= this._matrix.length || y < 0 || y >= this._matrix[0].length) {
       return null;
     }
-    
+
     return this._matrix[x][y];
   }
 
   setSquare(x, y, val) {
     this._matrix[x][y].val = val;
+  }
+
+  allSquares() {
+    const squares = [];
+    this._matrix.forEach(row => {
+      row.forEach(square => squares.push(square));
+    });
+    return squares;
   }
 }

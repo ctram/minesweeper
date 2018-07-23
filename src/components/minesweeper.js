@@ -7,7 +7,7 @@ import toastr from 'toastr';
 export default class Minesweeper extends Component {
   constructor(props) {
     super(props);
-    this.state = { game: new MinesweeperGame() };
+    this.state = { game: new MinesweeperGame(), disabled: false };
     this.newBoard = this.newBoard.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -22,7 +22,13 @@ export default class Minesweeper extends Component {
 
   handleClick(square) {
     const { game } = this.state;
-    this.setState({ game: game.clickSquare(square) });
+    const _game = game.clickSquare(square);
+    if (_game.state === 'won') {
+      toastr.success("You've Won!");
+    } else if (_game.state === 'lost') {
+      toastr.error("You lost");
+    }
+    this.setState({ game: _game });
   }
 
   render() {
@@ -31,7 +37,7 @@ export default class Minesweeper extends Component {
     return (
       <div className="d-flex flex-column align-items-center pt-3">
         <BoardSettings game={game} handleNewBoard={this.newBoard} />
-        <Board board={game.board} handleClick={this.handleClick} />
+        <Board game={game} handleClick={this.handleClick} />
       </div>
     );
   }
