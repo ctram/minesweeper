@@ -8,7 +8,7 @@ export default class Board {
       throw new Error('Must have at least one empty square');
     }
     if (height > LIMIT || width > LIMIT) {
-      throw new Error(`Dimension cannot exceed ${LIMIT}`);
+      throw new Error(`Dimension cannot exceed ${LIMIT} units`);
     }
     if (numMines <= 0) {
       throw new Error(`Must have at least one mine`);
