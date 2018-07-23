@@ -6,18 +6,23 @@ import MinesweeperGame from '../lib/minesweeper';
 export default class Minesweeper extends Component {
   constructor(props) {
     super(props);
-    this.game = new MinesweeperGame();
+    this.state = { game: new MinesweeperGame() };
+    this.newBoard = this.newBoard.bind(this);
   }
 
-  updateBoard() {}
+  newBoard(x, y) {
+    this.setState({ game: new MinesweeperGame(x, y) });
+  }
 
   render() {
+    const { game } = this.state;
+
     return (
       <div>
-        <BoardSettings game={this.game} handleUpdateBoard={this.updateBoard} />
+        <BoardSettings game={game} handleNewBoard={this.newBoard} />
         <div className="grid-container">
           <div className="grid-x align-center">
-            <Board board={this.game.board} />
+            <Board board={game.board} />
           </div>
         </div>
       </div>

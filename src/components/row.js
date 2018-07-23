@@ -7,8 +7,8 @@ class Row extends Component {
 
     return (
       <div className="board-row">
-        {squares.map(square => {
-          return <Square square={square} />;
+        {squares.map((square, idx) => {
+          return <Square square={square} key={idx} />;
         })}
       </div>
     );

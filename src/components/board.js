@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import Row from './row';
 
-class Board extends Component {
+export default class Board extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
+    debugger;
     const {
       board: { matrix }
     } = this.props;
 
-    return matrix.map(row => {
-      return <Row squares={row} />;
+    return matrix.map((row, idx) => {
+      return <Row squares={row} key={idx} />;
     });
   }
 }
-
-export default Board;
