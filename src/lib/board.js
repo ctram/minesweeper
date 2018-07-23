@@ -30,7 +30,7 @@ export default class Board {
   }
 
   getSquare(x, y) {
-    if (!x || !y || x < 0 || x >= this._matrix.length || y < 0 || y >= this._matrix[0].length) {
+    if (x === undefined || y === undefined || x < 0 || x >= this._matrix.length || y < 0 || y >= this._matrix[0].length) {
       return null;
     }
 

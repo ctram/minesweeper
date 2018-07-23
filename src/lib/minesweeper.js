@@ -36,7 +36,7 @@ export default class Minesweeper {
       }
 
       return square.isExposed;
-    })
+    });
   }
 
   clickSquare(square) {
@@ -53,7 +53,7 @@ export default class Minesweeper {
     }
 
     if (nextStateOfSquare === 'B') {
-      square.updateNeighbors();
+      square.revealNeighbors();
     }
     return this;
   }

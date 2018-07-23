@@ -85,7 +85,7 @@ export default class Square {
     });
   }
 
-  updateNeighbors() {
+  revealNeighbors() {
     const neighbors = this.neighbors();
     let i = 0;
 
@@ -98,7 +98,7 @@ export default class Square {
         neighbor.click();
       } else {
         neighbor.click();
-        neighbor.updateNeighbors();
+        neighbor.revealNeighbors();
       }
       i++;
     }
