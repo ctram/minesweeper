@@ -3,9 +3,14 @@ import React, { Component } from 'react';
 export default class BoardSettings extends Component {
   constructor(props) {
     super(props);
+    const {
+      game: {
+        attrs: { width, height, numMines: mines }
+      }
+    } = props;
     this.handeChange = this.handeChange.bind(this);
     this.newBoard = this.newBoard.bind(this);
-    this.state = { width: 3, height: 3, mines: 1 };
+    this.state = { width, height, mines };
   }
 
   newBoard(e) {
@@ -26,6 +31,7 @@ export default class BoardSettings extends Component {
   }
 
   render() {
+    const { game } = this.props;
     return (
       <form className="form-inline" onSubmit={this.newBoard}>
         <div className="form-group">

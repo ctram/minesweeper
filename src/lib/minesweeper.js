@@ -5,10 +5,15 @@ export default class Minesweeper {
     return new Board(height, width, numMines);
   }
 
-  constructor(height = 3, width = 3, numMines = 1) {
+  constructor(height = 10, width = 10, numMines = 3) {
     this._board = Minesweeper.createBoard(height, width, numMines);
     this._state = 'playing';
     this._clickHistory = [];
+    this._attrs = { height, width, numMines };
+  }
+
+  get attrs() {
+    return this._attrs;
   }
 
   get board() {
@@ -43,7 +48,7 @@ export default class Minesweeper {
 
     if (square.isMine) {
       this._state = 'lost';
-      this.revealMines();
+      this.revealRemainingSquares();
     }
     if (nextStateOfSquare === 'B') {
       square.revealNeighbors();
@@ -60,6 +65,6 @@ export default class Minesweeper {
       if (this._clickHistory.indexOf(square) === -1) {
         square.reveal();
       }
-    })
+    });
   }
 }
