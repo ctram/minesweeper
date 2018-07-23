@@ -8,7 +8,8 @@ export default class BoardSettings extends Component {
     this.state = { width: 3, height: 3 };
   }
 
-  newBoard() {
+  newBoard(e) {
+    e.preventDefault();
     const y = Number(this.refs['input-width'].value);
     const x = Number(this.refs['input-height'].value);
     this.props.handleNewBoard(x, y);
@@ -26,7 +27,7 @@ export default class BoardSettings extends Component {
   render() {
     return (
       <div>
-        <form className="form-inline">
+        <form className="form-inline" onSubmit={this.newBoard}>
           <div className="form-group">
             <label htmlFor="input-width" className="mr-3">
               Width
@@ -59,7 +60,7 @@ export default class BoardSettings extends Component {
               onChange={this.handeChange}
             />
           </div>
-          <button type="button" className="btn btn-primary ml-3" onClick={this.newBoard}>
+          <button className="btn btn-primary ml-3" onClick={this.newBoard}>
             Create Board
           </button>
           <small className="form-text text-muted ml-3">
