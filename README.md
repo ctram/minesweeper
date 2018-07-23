@@ -8,4 +8,4 @@ Just want to make my own minesweeper.
 
 `npm run start`
 
-[Play it here.](https://ct-minesweeper.herokuapp.com/)
+Or [Play it here.](https://ct-minesweeper.herokuapp.com/)
