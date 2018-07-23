@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import BoardSettings from './board-settings';
 import Board from './board';
 import MinesweeperGame from '../lib/minesweeper';
+import toastr from 'toastr';
 
 export default class Minesweeper extends Component {
   constructor(props) {
@@ -11,7 +12,11 @@ export default class Minesweeper extends Component {
   }
 
   newBoard(x, y) {
-    this.setState({ game: new MinesweeperGame(x, y) });
+    try {
+      this.setState({ game: new MinesweeperGame(x, y) });
+    } catch (e) {
+      toastr.error(e);
+    }
   }
 
   render() {
