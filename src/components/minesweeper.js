@@ -10,7 +10,7 @@ export default class Minesweeper extends Component {
     this.newBoard = this.newBoard.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onContextMenu = this.onContextMenu.bind(this);
-    this.state = { game: new MinesweeperGame(): false };
+    this.state = { game: new MinesweeperGame() };
   }
 
   newBoard(x, y, numMines) {
