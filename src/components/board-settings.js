@@ -5,7 +5,7 @@ export default class BoardSettings extends Component {
     super(props);
     this.handeChange = this.handeChange.bind(this);
     this.newBoard = this.newBoard.bind(this);
-    this.state = { width: 3, height: 3 };
+    this.state = { width: 3, height: 3, mines: 1 };
   }
 
   newBoard(e) {
@@ -57,6 +57,22 @@ export default class BoardSettings extends Component {
               max="20"
               placeholder="height"
               value={this.state.height}
+              onChange={this.handeChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="input-mines" className="mx-3">
+              Mines
+            </label>
+            <input
+              id="input-mines"
+              className="form-control"
+              type="number"
+              ref="input-mines"
+              min="1"
+              max="20"
+              placeholder="number of mines"
+              value={this.state.mines}
               onChange={this.handeChange}
             />
           </div>

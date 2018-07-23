@@ -1,13 +1,8 @@
 import Board from './board';
 
 export default class Minesweeper {
-  static createBoard(height, width) {
-    const board = new Board(height, width);
-    // Random mine
-    const x = Math.ceil(Math.random() * (height - 1));
-    const y = Math.ceil(Math.random() * (width - 1));
-    board.setSquare(x, y, 'M');
-    this._board = board;
+  static createBoard(height, width, numMines) {
+    this._board = new Board(height, width, numMines);
     return this._board;
   }
 
