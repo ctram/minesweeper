@@ -12,6 +12,7 @@ class Square {
   }
 
   set val(val) {
+    this._isMine = val === 'M';
     this._val = val;
   }
 
@@ -71,13 +72,14 @@ class Square {
     return this.DELTAS.map(delta => {
       const i = this.coorX + delta[0];
       const j = this.coorY + delta[1];
+      const square = this._board.getSquare(i, j);
 
       if (
         i < 0 ||
         i >= this._board.length ||
         j < 0 ||
         j >= this._board[0].length ||
-        this._board[i][j].isExposed
+        square.isExposed
       ) {
         return null;
       }
@@ -108,6 +110,32 @@ class Square {
   }
 }
 
+class Board {
+  constructor(x, y) {
+    this._matrix = [];
+    for (let i = 0; i < x; ++i) {
+      const row = [];
+      for (let j = 0; j < y; ++j) {
+        row.push(new Square(null, this._matrix, [i, j]));
+      }
+      this._matrix.push(row);
+    }
+  }
+
+  getSquare(x, y) {
+    return this._matrix[x][y];
+  }
+
+  setSquare(x, y, val) {
+    this._matrix[x][y].val = val;
+  }
+
+  get matrix() {
+    return this._matrix;
+  }
+
+}
+
 export default class Minesweeper {
   constructor() {
     this.DELTAS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
@@ -116,22 +144,12 @@ export default class Minesweeper {
   }
 
   static createBoard(dimensions) {
-    const board = [];
+    const board = new Board(dimensions[0], dimensions[1]);
     // Random mine
     const x = Math.ceil(Math.random() * (dimensions[0] - 1));
     const y = Math.ceil(Math.random() * (dimensions[1] - 1));
+    board.setSquare(x, y, 'M');
 
-    for (let i = 0; i < dimensions[0]; ++i) {
-      const row = [];
-      for (let j = 0; j < dimensions[1]; ++j) {
-        if (i === x && y === j) {
-          row.push(new Square('M', [i, j]));
-        } else {
-          row.push(new Square('E', [i, j]));
-        }
-      }
-      board.push(row);
-    }
     return board;
   }
 
