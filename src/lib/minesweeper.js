@@ -5,7 +5,7 @@ export default class Minesweeper {
     return new Board(height, width, numMines);
   }
 
-  constructor(height = 10, width = 10, numMines = 3) {
+  constructor(height = 5, width = 5, numMines = 3) {
     this._board = Minesweeper.createBoard(height, width, numMines);
     this._state = 'playing';
     this._clickHistory = [];
