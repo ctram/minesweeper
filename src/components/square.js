@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 export default class Square extends Component {
   render() {
-    const { square, handleClick, game } = this.props;
+    const { square, onClick, onContextMenu, game } = this.props;
     let content;
     let style = 'square text-center';
     const disabled = game.state !== 'playing';
@@ -11,7 +11,6 @@ export default class Square extends Component {
       style += ' square--revealed';
 
       if (square.isMine) {
-        debugger
         style += square === game.lastClicked ? ' square--explosion' : '';
         content = 'M';
       } else if (square.val === 'B') {
@@ -19,16 +18,22 @@ export default class Square extends Component {
       } else {
         content = square.val;
       }
+    } else if (square.flagged) {
+      content = 'F';
     }
+
     if (disabled) {
       style += ' square--disabled';
     }
-
     return (
       <div
+        onContextMenu={e => {
+          e.preventDefault();
+          !square.revealed && onContextMenu(square);
+        }}
         className={style}
         onClick={() => {
-          !disabled && handleClick(square);
+          !disabled && onClick(square);
         }}
       >
         {content}

@@ -60,6 +60,11 @@ export default class Minesweeper {
     return this;
   }
 
+  toggleFlagSquare(square) {
+    square.toggleFlag();
+    return this;
+  }
+
   revealRemainingSquares() {
     this._board.allSquares().forEach(square => {
       if (this._clickHistory.indexOf(square) === -1) {

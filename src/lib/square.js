@@ -6,6 +6,7 @@ export default class Square {
     this._board = board;
     this._isMine = val === 'M';
     this.DELTAS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+    this._flagged = false;
   }
 
   get val() {
@@ -39,6 +40,10 @@ export default class Square {
 
   get isMine() {
     return this._isMine;
+  }
+
+  get flagged() {
+    return this._flagged;
   }
 
   reveal() {
@@ -104,5 +109,9 @@ export default class Square {
       }
       i++;
     }
+  }
+
+  toggleFlag() {
+    this._flagged = !this._flagged;
   }
 }
