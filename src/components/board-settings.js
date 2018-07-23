@@ -4,7 +4,7 @@ export default class BoardSettings extends Component {
   constructor(props) {
     super(props);
     const { game } = props;
-    const { width, height, mines } = game.attrs;
+    const { width, height, numMines: mines } = game.attrs;
     this.handeChange = this.handeChange.bind(this);
     this.newBoard = this.newBoard.bind(this);
     this.state = { width, height, mines };
