@@ -40,7 +40,7 @@ export default class BoardSettings extends Component {
             type="number"
             ref="input-width"
             min="1"
-            max="20"
+            max="25"
             placeholder="width"
             value={this.state.width}
             onChange={this.handeChange}
@@ -56,7 +56,7 @@ export default class BoardSettings extends Component {
             type="number"
             ref="input-height"
             min="1"
-            max="20"
+            max="25"
             placeholder="height"
             value={this.state.height}
             onChange={this.handeChange}

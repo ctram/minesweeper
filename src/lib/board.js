@@ -2,7 +2,7 @@ import Square from './square';
 
 export default class Board {
   constructor(height, width, numMines) {
-    const LIMIT = 30;
+    const LIMIT = 25;
 
     if (numMines > height * width - 1) {
       throw new Error('Must have at least one empty square');
